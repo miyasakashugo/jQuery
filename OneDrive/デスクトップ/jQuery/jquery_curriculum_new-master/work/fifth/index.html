@@ -89,7 +89,7 @@
         $('.select').change(function() {
           var selected = $(this).val();
           $('li').each(function(index, element) {
-            if (selected === $(element).data('category-type')) {
+            if (selected === $(element).data('category-type') || selected === 'all') {
               $(element).show();
             } else {
               $(element).hide();
