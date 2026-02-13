@@ -28,7 +28,7 @@
       // 今回やるのはタブメニューです。
       // navの小要素であるliをクリックして、contents内の小要素であるli要素を表示させる。
         $('.nav li').click(function() {
-          var num = $(this).index();
+          const num = $(this).index();
           $('.contents li').addClass('is-hidden');
           $('.contents li').eq(num).removeClass('is-hidden');
         })

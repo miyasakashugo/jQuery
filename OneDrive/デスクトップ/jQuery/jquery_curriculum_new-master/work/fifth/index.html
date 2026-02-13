@@ -88,8 +88,12 @@
       $(function() {
         $('.select').change(function() {
           var selected = $(this).val();
+            if (selected === 'all') {
+              $('li').show();
+              return;
+            };
           $('li').each(function(index, element) {
-            if (selected === $(element).data('category-type') || selected === 'all') {
+            if (selected === $(element).data('category-type')) {
               $(element).show();
             } else {
               $(element).hide();
