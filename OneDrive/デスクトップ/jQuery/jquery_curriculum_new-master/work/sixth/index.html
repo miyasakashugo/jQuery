@@ -16,6 +16,25 @@
   <script src="../../common/js/jquery.js"></script>
   <script>
     // 回答はここに書いてね
+    $.ajax({
+      url: 'https://pokeapi.co/api/v2/pokemon/1',
+      method: 'GET'
+    }).done(function(res) {
+      const encountHtml =
+        `
+    <p class="name"></p>
+    <div>
+      <img class="img" src="" alt="">
+    </div>
+    <div>
+      <button class="btn" id="catch">捕まえる</button>
+      <button class="btn" data-js="reset">逃げる</button>
+    </div>
+  `
+      console.log('成功', res);
+    }).fail(function(err) {
+      console.log('エラー', err);
+    });
   </script>
 </body>
 </html>
