@@ -16,22 +16,76 @@
   <script src="../../common/js/jquery.js"></script>
   <script>
     // 回答はここに書いてね
+
+    const encountHtml =
+    `
+    <p class="name" data-pokemonName=""></p>
+    <div>
+      <img class="img" data-pokemonImg="" alt="">
+      </div>
+      <div>
+        <button class="btn" id="catch">捕まえる</button>
+        <button class="btn" data-js="reset">逃げる</button>
+      </div>
+    `
+    $(document).on('click', '#pokemon_search', function() {
+      const pokemonId = Math.floor(Math.random() * 151) + 1;
+      $.ajax({
+        url: `https://pokeapi.co/api/v2/pokemon/${pokemonId}`,
+        method: 'GET'
+      }).done(function(res) {
+        const pokemonJp = res.species.url;
+          $.ajax({
+            url: pokemonJp,
+            method: 'GET'
+          }).done(function(pokemonNameJp) {
+            const characterName = pokemonNameJp.names[0].name;
+            $('#wrapper').html(encountHtml);
+            $('#wrapper [data-pokemonName]').text(pokemonNameJp.names[0].name);
+            $('#wrapper [data-pokemonImg]').attr('src', res.sprites.front_default);
+          }).fail(function() {
+          });
+      }).fail(function(err) {
+        console.log('エラー', err);
+      });
+    });
+
+    const doneHtml =
+    `
+    <p class="name">ゲットしました</p>
+    <div>
+    <img class="img" data-pokemonBall="" alt="">
+    </div>
+    <button class="btn" data-js="reset">戻る</button>
+    `
+    const failHtml =
+    `
+    <p class="text">逃げられてしまった...</p>
+    <button class="btn mt" data-js="reset">戻る</button>
+    `
+    const pokemonSearch =
+    `
+    <div class="wrapper" id="wrapper">
+      <button type="button" class="btn search-btn" id="pokemon_search">ポケモンを探す</button>
+    </div>
+    `
     $.ajax({
-      url: 'https://pokeapi.co/api/v2/pokemon/1',
+      url: 'https://pokeapi.co/api/v2/item/4',
       method: 'GET'
     }).done(function(res) {
-      const encountHtml =
-        `
-    <p class="name"></p>
-    <div>
-      <img class="img" src="" alt="">
-    </div>
-    <div>
-      <button class="btn" id="catch">捕まえる</button>
-      <button class="btn" data-js="reset">逃げる</button>
-    </div>
-  `
-      console.log('成功', res);
+      $(document).on('click', '#catch', function() {
+        const random = Math.random();
+        if (random < 0.5) {
+          $('#wrapper').html(doneHtml);
+        } else {
+          $('#wrapper').html(failHtml);
+        }
+        $('#wrapper [data-pokemonBall]').attr('src', res.sprites.default);
+      });
+
+      $(document).on('click', '[data-js="reset"]', function() {
+        $('#wrapper').html(pokemonSearch);
+      })
     }).fail(function(err) {
       console.log('エラー', err);
     });
