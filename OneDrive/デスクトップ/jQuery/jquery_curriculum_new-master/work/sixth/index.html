@@ -19,7 +19,7 @@
 
     const encountHtml =
     `
-    <p class="name" src=""></p>
+    <p class="name"></p>
     <div>
       <img class="img" src="" alt="">
     </div>
@@ -65,7 +65,6 @@
       }).fail(function(err) {
       });
     });
-
     $.ajax({
       url: 'https://pokeapi.co/api/v2/item/4',
       method: 'GET'
@@ -74,12 +73,11 @@
         const doneFlag = Math.random() < 0.5;
         if (doneFlag) {
           $('#wrapper').html(doneHtml);
+          $('.img').attr('src', pokemonBall.sprites.default);
         } else {
           $('#wrapper').html(failHtml);
         }
-        $('#wrapper .img').attr('src', pokemonBall.sprites.default);
       });
-
       $(document).on('click', '[data-js="reset"]', function() {
         $('#wrapper').html(pokemonSearch);
       })
