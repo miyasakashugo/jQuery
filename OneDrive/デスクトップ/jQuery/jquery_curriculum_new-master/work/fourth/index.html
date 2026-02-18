@@ -47,6 +47,15 @@
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
+      $(function() {
+        $('.menu__list li').hover(
+          function() {
+            $(this).children('ul').stop(true, true).slideDown(300);
+          },
+          function() {
+            $(this).children('ul').stop(true, true).slideUp(300);
+          }
+        );
       // 今回やるのはドロップメニューです。
       // メニューをhoverすると隠れている中のメニューが表示され、メニューから離れると中のメニューが非表示されるプログラムです。
       // 処理は関数化し、hoverしたら用意した関数を呼び出すようにしてください。
@@ -61,6 +70,7 @@
       // ・連続で何回もホバーした時、手を止めているのにリストがスライドし続けないか
       // ・出てきたリストの上にホバーできるか
       // ※必ずレビュー前に上記挙動が問題ないか確認すること
+      });
     </script>
   </body>
 </html>
