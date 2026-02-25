@@ -16,6 +16,74 @@
   <script src="../../common/js/jquery.js"></script>
   <script>
     // 回答はここに書いてね
+
+    const encountHtml =
+    `
+    <p class="name"></p>
+    <div>
+      <img class="img" src="" alt="">
+    </div>
+    <div>
+      <button class="btn" id="catch">捕まえる</button>
+      <button class="btn" data-js="reset">逃げる</button>
+    </div>
+    `
+    const doneHtml =
+    `
+    <p class="name">ゲットしました</p>
+    <div>
+    <img class="img" src="" alt="">
+    </div>
+    <button class="btn" data-js="reset">戻る</button>
+    `
+    const failHtml =
+    `
+    <p class="text">逃げられてしまった...</p>
+    <button class="btn mt" data-js="reset">戻る</button>
+    `
+    const pokemonSearch =
+    `
+    <button type="button" class="btn search-btn" id="pokemon_search">ポケモンを探す</button>
+    `
+    $(document).on('click', '#pokemon_search', function() {
+      const pokemonId = Math.floor(Math.random() * 151) + 1;
+      $.ajax({
+        url: `https://pokeapi.co/api/v2/pokemon/${pokemonId}`,
+        method: 'GET'
+      }).done(function(pokemonData) {
+        const pokemonJp = pokemonData.species.url;
+          $.ajax({
+            url: pokemonJp,
+            method: 'GET'
+          }).done(function(pokemonNameJp) {
+            const characterName = pokemonNameJp.names[0].name;
+            $('#wrapper').html(encountHtml);
+            $('#wrapper .name').text(pokemonNameJp.names[0].name);
+            $('#wrapper .img').attr('src', pokemonData.sprites.front_default);
+          }).fail(function() {
+          });
+      }).fail(function(err) {
+      });
+    });
+    $.ajax({
+      url: 'https://pokeapi.co/api/v2/item/4',
+      method: 'GET'
+    }).done(function(pokemonBall) {
+      $(document).on('click', '#catch', function() {
+        const doneFlag = Math.random() < 0.5;
+        if (doneFlag) {
+          $('#wrapper').html(doneHtml);
+          $('.img').attr('src', pokemonBall.sprites.default);
+        } else {
+          $('#wrapper').html(failHtml);
+        }
+      });
+      $(document).on('click', '[data-js="reset"]', function() {
+        $('#wrapper').html(pokemonSearch);
+      })
+    }).fail(function(err) {
+      console.log('エラー', err);
+    });
   </script>
 </body>
 </html>
